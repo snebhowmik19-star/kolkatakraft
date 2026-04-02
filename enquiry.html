@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bulk Order Enquiry</title>
+</head>
+
+<body style="font-family:Arial; background:#F5F5DC;">
+
+<h2 style="text-align:center;">Bulk Order Enquiry</h2>
+
+<div style="max-width:400px; margin:auto; background:white; padding:20px;">
+
+    <input type="text" placeholder="Your Name" style="width:100%; margin:5px;"><br>
+    <input type="email" placeholder="Email" style="width:100%; margin:5px;"><br>
+    <input type="text" placeholder="Product Name" style="width:100%; margin:5px;"><br>
+    <input type="number" placeholder="Quantity" required 
+    style="width:100%; padding:10px; margin:10px 0;">
+    <button onclick="sendEnquiry()" style="width:100%; background:#8B4513; color:white;">
+        Submit
+    </button>
+
+</div>
+
+<script>
+function sendEnquiry() {
+    alert("Enquiry submitted successfully!");
+}
+</script>
+
+</body>
+</html>
