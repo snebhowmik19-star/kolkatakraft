@@ -41,14 +41,6 @@
         .btn-custom:hover {
             background-color: #e76f51;
         }
-
-        .footer {
-            background-color: #a8dadc;
-            color: #333;
-            text-align: center;
-            padding: 15px;
-            margin-top: 30px;
-        }
     </style>
 </head>
 
@@ -59,103 +51,36 @@
     <a href="index.html">Home</a>
     <a href="products.html">Products</a>
     <a href="cart.html">Cart</a>
-    <a href="enquiry.html">Enquiry</a>
-    <a href="analytics.html">Analytics</a>
-    <a href="login.html">Login</a>
 </div>
 
-<!-- PAYMENT SECTION -->
+<!-- PAYMENT -->
 <div class="payment-box">
 
     <h3 class="text-center">Payment</h3>
     <h5 class="text-center">Total: ₹<span id="totalAmount">0</span></h5>
 
-    <hr>
-
-    <h6>Select Payment Method</h6>
-
-    <input type="radio" name="payment" value="card" onclick="showCard()" checked> Card Payment <br>
-    <input type="radio" name="payment" value="upi" onclick="showUPI()"> UPI <br>
-    <input type="radio" name="payment" value="cod" onclick="showCOD()"> Cash on Delivery <br><br>
-
-    <!-- Card -->
-    <div id="cardForm">
-        <input type="text" placeholder="Name on Card" class="form-control mb-2">
-        <input type="text" placeholder="Card Number" class="form-control mb-2">
-        <input type="text" placeholder="MM/YY" class="form-control mb-2">
-        <input type="password" placeholder="CVV" class="form-control mb-2">
-    </div>
-
-    <!-- UPI -->
-    <div id="upiForm" style="display:none;">
-        <input type="text" placeholder="Enter UPI ID" class="form-control mb-2">
-    </div>
-
-    <!-- COD -->
-    <div id="codMsg" style="display:none;">
-        <p>Pay when your order is delivered.</p>
-    </div>
-
-    <button onclick="payNow()" class="btn btn-custom mt-2">
-        Pay Now
+    <button onclick="payNow()" class="btn btn-custom mt-3">
+        Pay with Razorpay
     </button>
 
 </div>
 
-<!-- FOOTER -->
-<div class="footer">
-    <p>© 2026 KolkataKraft | Crafted with Love 💛</p>
-</div>
-
-<!-- Razorpay -->
+<!-- Razorpay Script -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-<!-- SCRIPT -->
 <script>
-
-// Show total from cart
-let total = localStorage.getItem("total") || 0;
+let total = localStorage.getItem("total") || 500;
 document.getElementById("totalAmount").innerText = total;
 
-// Toggle methods
-function showCard(){
-    document.getElementById("cardForm").style.display = "block";
-    document.getElementById("upiForm").style.display = "none";
-    document.getElementById("codMsg").style.display = "none";
-}
-
-function showUPI(){
-    document.getElementById("cardForm").style.display = "none";
-    document.getElementById("upiForm").style.display = "block";
-    document.getElementById("codMsg").style.display = "none";
-}
-
-function showCOD(){
-    document.getElementById("cardForm").style.display = "none";
-    document.getElementById("upiForm").style.display = "none";
-    document.getElementById("codMsg").style.display = "block";
-}
-
-// Payment
 function payNow(){
 
-    let method = document.querySelector('input[name="payment"]:checked').value;
-
-    // COD
-    if(method === "cod"){
-        alert("Order Placed Successfully (Cash on Delivery)");
-        localStorage.removeItem("cart");
-        window.location.href = "index.html";
-        return;
-    }
-
-    // Razorpay (Card + UPI)
     var options = {
-        "key": "rzp_test_1234567890",  // test key
-        "amount": total * 100,
+        "key": "rzp_test_1234567890",  // TEST KEY
+        "amount": total * 100,        // paisa
         "currency": "INR",
         "name": "KolkataKraft",
         "description": "Order Payment",
+
         "handler": function (response){
             alert("Payment Successful!");
             localStorage.removeItem("cart");
@@ -166,10 +91,7 @@ function payNow(){
     var rzp = new Razorpay(options);
     rzp.open();
 }
-
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
