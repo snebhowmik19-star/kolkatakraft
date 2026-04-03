@@ -1,7 +1,7 @@
-// GLOBAL cart (used everywhere)
+// GLOBAL CART
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-// Add to cart
+// ADD TO CART
 function addToCart(name, price) {
     cart.push({
         name: name,
@@ -9,10 +9,10 @@ function addToCart(name, price) {
     });
 
     localStorage.setItem("cart", JSON.stringify(cart));
-    alert("Added to cart!");
+    alert(name + " added to cart!");
 }
 
-// Display cart
+// DISPLAY CART
 function displayCart() {
     let cartItemsDiv = document.getElementById("cartItems");
     let totalPrice = document.getElementById("totalPrice");
@@ -33,61 +33,74 @@ function displayCart() {
         total += item.price;
 
         cartItemsDiv.innerHTML += `
-            <div style="background:white; padding:15px; margin:10px 0; border-radius:10px; display:flex; justify-content:space-between;">
+            <div style="background:white; padding:15px; margin:10px 0; border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
+                
                 <div>
-                    <h4>${item.name}</h4>
+                    <h5>${item.name}</h5>
                     <p>₹${item.price}</p>
                 </div>
+
                 <button onclick="removeItem(${index})"
-                    style="background:red; color:white; border:none; padding:8px 12px; border-radius:5px;">
+                    style="background:red; color:white; border:none; padding:6px 10px; border-radius:5px;">
                     Remove
                 </button>
+
             </div>
         `;
     });
 
     totalPrice.innerText = total;
+    localStorage.setItem("total", total);
 }
 
-// Remove item
+// REMOVE ITEM
 function removeItem(index) {
     cart.splice(index, 1);
     localStorage.setItem("cart", JSON.stringify(cart));
     displayCart();
 }
 
-// Checkout → go to payment page
+// GO TO PAYMENT
 function checkout() {
     window.location.href = "payment.html";
 }
 
-// Payment page total
+// LOAD PAYMENT TOTAL
 function loadPayment() {
     let totalAmount = document.getElementById("totalAmount");
     if (!totalAmount) return;
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
     let total = 0;
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    cart.forEach(item => {
-        total += item.price;
-    });
+    cart.forEach(item => total += item.price);
 
     totalAmount.innerText = total;
 }
 
-// Place order
+// PLACE ORDER
 function placeOrder() {
-    alert("Payment Successful! Order Placed.");
+    let method = document.querySelector('input[name="payment"]:checked');
+
+    if (!method) {
+        alert("Please select payment method");
+        return;
+    }
+
+    if (method.value === "upi") {
+        let upi = document.getElementById("upiInput").value;
+        if (upi === "") {
+            alert("Enter UPI ID");
+            return;
+        }
+    }
+
+    alert("Order Successful!");
     localStorage.removeItem("cart");
     window.location.href = "index.html";
 }
 
-// Run functions when needed
-displayCart();
-loadPayment();
-
-// Show payment forms
+// PAYMENT FORM SWITCH
 function showCard() {
     document.getElementById("cardForm").style.display = "block";
     document.getElementById("upiForm").style.display = "none";
@@ -106,11 +119,11 @@ function showCOD() {
     document.getElementById("codMsg").style.display = "block";
 }
 
+// LOGIN
 function login() {
     let user = document.getElementById("username").value;
     let pass = document.getElementById("password").value;
 
-    // Simple login (you can change values)
     if (user === "admin" && pass === "1234") {
         localStorage.setItem("user", user);
         alert("Login Successful!");
@@ -120,38 +133,8 @@ function login() {
     }
 }
 
-// Load total
-function loadPayment() {
-    let total = 0;
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    cart.forEach(item => total += item.price);
-
-    let totalAmount = document.getElementById("totalAmount");
-    if (totalAmount) totalAmount.innerText = total;
-}
-
-// Place order
-function placeOrder() {
-    let method = document.querySelector('input[name="payment"]:checked');
-
-    if (!method) {
-        alert("Select payment method");
-        return;
-    }
-
-    if (method.value === "upi") {
-        let upi = document.getElementById("upiInput").value;
-        if (upi === "") {
-            alert("Enter UPI ID");
-            return;
-        }
-    }
-
-    alert("Order Successful!");
-    localStorage.removeItem("cart");
-    window.location.href = "index.html";
-}
-
-// Run
-loadPayment();
+// RUN FUNCTIONS SAFELY
+window.onload = function () {
+    displayCart();
+    loadPayment();
+};
