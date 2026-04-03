@@ -23,9 +23,9 @@
             font-weight: bold;
         }
 
-        .payment-box {
+        .box {
             max-width: 400px;
-            margin: 40px auto;
+            margin: 50px auto;
             background: white;
             padding: 20px;
             border-radius: 15px;
@@ -41,13 +41,6 @@
         .btn-custom:hover {
             background-color: #e76f51;
         }
-
-        .footer {
-            background-color: #a8dadc;
-            text-align: center;
-            padding: 15px;
-            margin-top: 30px;
-        }
     </style>
 </head>
 
@@ -58,86 +51,63 @@
     <a href="index.html">Home</a>
     <a href="products.html">Products</a>
     <a href="cart.html">Cart</a>
-    <a href="enquiry.html">Enquiry</a>
-    <a href="analytics.html">Analytics</a>
-    <a href="login.html">Login</a>
 </div>
 
 <!-- PAYMENT -->
-<div class="payment-box">
+<div class="box text-center">
 
-    <h3 class="text-center">Payment</h3>
-    <h5 class="text-center">Total: ₹<span id="totalAmount">0</span></h5>
+    <h3>Payment</h3>
+    <h5>Total: ₹<span id="amount">0</span></h5>
 
-    <hr>
-
-    <!-- Options -->
-    <h6>Select Payment Method</h6>
-
-    <input type="radio" name="payment" value="online" checked> Card / UPI (Razorpay)<br>
-    <input type="radio" name="payment" value="cod"> Cash on Delivery<br><br>
-
-    <!-- BUTTON -->
-    <button onclick="payNow()" class="btn btn-custom">
-        Proceed Payment
+    <button onclick="payNow()" class="btn btn-custom mt-3">
+        Pay Now
     </button>
 
-</div>
+    <br><br>
 
-<!-- FOOTER -->
-<div class="footer">
-    <p>© 2026 KolkataKraft</p>
+    <button onclick="codOrder()" class="btn btn-secondary">
+        Cash on Delivery
+    </button>
+
 </div>
 
 <!-- Razorpay -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
-let total = localStorage.getItem("total") || 500;
-document.getElementById("totalAmount").innerText = total;
 
+// get total from cart
+let total = localStorage.getItem("total") || 500;
+document.getElementById("amount").innerText = total;
+
+// Razorpay Payment
 function payNow(){
 
-    let method = document.querySelector('input[name="payment"]:checked').value;
-
-    // COD OPTION
-    if(method === "cod"){
-        alert("Order placed with Cash on Delivery!");
-        localStorage.removeItem("cart");
-        window.location.href = "index.html";
-        return;
-    }
-
-    // RAZORPAY (Card + UPI + Netbanking auto supported)
     var options = {
-        "key": "rzp_test_1234567890", 
+        "key": "rzp_test_1234567890",  // test key
         "amount": total * 100,
         "currency": "INR",
         "name": "KolkataKraft",
-        "description": "Order Payment",
-
+        "description": "Test Payment",
         "handler": function (response){
             alert("Payment Successful!");
             localStorage.removeItem("cart");
             window.location.href = "index.html";
-        },
-
-        "prefill": {
-            "name": "Customer",
-            "email": "test@test.com"
-        },
-
-        "theme": {
-            "color": "#f4a261"
         }
     };
 
     var rzp = new Razorpay(options);
     rzp.open();
 }
-</script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+// COD
+function codOrder(){
+    alert("Order placed with Cash on Delivery!");
+    localStorage.removeItem("cart");
+    window.location.href = "index.html";
+}
+
+</script>
 
 </body>
 </html>
