@@ -59,6 +59,34 @@ function removeItem(index) {
     displayCart(); // refresh
 }
 
+<script>
+function payNow() {
+
+    let total = localStorage.getItem("total") || 100;
+
+    let options = {
+        "key": "rzp_test_1234567890", // replace with your test key
+        "amount": total * 100,
+        "currency": "INR",
+        "name": "KolkataKraft",
+        "description": "Test Payment",
+        "handler": function (response){
+            alert("Payment Successful!");
+        },
+        "prefill": {
+            "name": "Customer",
+            "email": "test@gmail.com"
+        },
+        "theme": {
+            "color": "#f4a261"
+        }
+    };
+
+    let rzp = new Razorpay(options);
+    rzp.open();
+}
+</script>
+
 
 // LOAD CART AUTOMATICALLY (FIXED)
 document.addEventListener("DOMContentLoaded", function () {
