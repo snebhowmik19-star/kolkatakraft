@@ -23,9 +23,9 @@
             font-weight: bold;
         }
 
-        .box {
+        .payment-box {
             max-width: 400px;
-            margin: 50px auto;
+            margin: 40px auto;
             background: white;
             padding: 20px;
             border-radius: 15px;
@@ -41,6 +41,14 @@
         .btn-custom:hover {
             background-color: #e76f51;
         }
+
+        .footer {
+            background-color: #a8dadc;
+            color: #333;
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+        }
     </style>
 </head>
 
@@ -51,44 +59,91 @@
     <a href="index.html">Home</a>
     <a href="products.html">Products</a>
     <a href="cart.html">Cart</a>
+    <a href="enquiry.html">Enquiry</a>
+    <a href="analytics.html">Analytics</a>
+    <a href="login.html">Login</a>
 </div>
 
-<!-- PAYMENT -->
-<div class="box text-center">
+<!-- PAYMENT BOX -->
+<div class="payment-box">
 
-    <h3>Payment</h3>
-    <h5>Total: ₹<span id="amount">0</span></h5>
+    <h3 class="text-center">Payment</h3>
+    <h5 class="text-center">Total: ₹<span id="totalAmount">0</span></h5>
 
-    <button onclick="payNow()" class="btn btn-custom mt-3">
-        Pay Now
-    </button>
+    <hr>
 
-    <br><br>
+    <h6>Select Payment Method</h6>
 
-    <button onclick="codOrder()" class="btn btn-secondary">
-        Cash on Delivery
+    <input type="radio" name="payment" onclick="showCard()" checked> Card Payment <br>
+    <input type="radio" name="payment" onclick="showUPI()"> UPI <br>
+    <input type="radio" name="payment" onclick="showCOD()"> Cash on Delivery <br><br>
+
+    <!-- Card -->
+    <div id="cardForm">
+        <input type="text" placeholder="Name on Card" class="form-control mb-2">
+        <input type="text" placeholder="Card Number" class="form-control mb-2">
+        <input type="text" placeholder="MM/YY" class="form-control mb-2">
+        <input type="password" placeholder="CVV" class="form-control mb-2">
+    </div>
+
+    <!-- UPI -->
+    <div id="upiForm" style="display:none;">
+        <input type="text" placeholder="Enter UPI ID" class="form-control mb-2">
+    </div>
+
+    <!-- COD -->
+    <div id="codMsg" style="display:none;">
+        <p>Pay when your order is delivered.</p>
+    </div>
+
+    <!-- BUTTON -->
+    <button onclick="payNow()" class="btn btn-custom mt-2">
+        Pay with Razorpay
     </button>
 
 </div>
 
-<!-- Razorpay -->
+<!-- FOOTER -->
+<div class="footer">
+    <p>© 2026 KolkataKraft | Crafted with Love 💛</p>
+</div>
+
+<!-- RAZORPAY SCRIPT -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
-
-// get total from cart
+/* Show total */
 let total = localStorage.getItem("total") || 500;
-document.getElementById("amount").innerText = total;
+document.getElementById("totalAmount").innerText = total;
 
-// Razorpay Payment
+/* Payment toggle */
+function showCard(){
+    document.getElementById("cardForm").style.display = "block";
+    document.getElementById("upiForm").style.display = "none";
+    document.getElementById("codMsg").style.display = "none";
+}
+
+function showUPI(){
+    document.getElementById("cardForm").style.display = "none";
+    document.getElementById("upiForm").style.display = "block";
+    document.getElementById("codMsg").style.display = "none";
+}
+
+function showCOD(){
+    document.getElementById("cardForm").style.display = "none";
+    document.getElementById("upiForm").style.display = "none";
+    document.getElementById("codMsg").style.display = "block";
+}
+
+/* RAZORPAY PAYMENT */
 function payNow(){
 
     var options = {
-        "key": "rzp_test_1234567890",  // test key
+        "key": "rzp_test_1234567890", // test key
         "amount": total * 100,
         "currency": "INR",
         "name": "KolkataKraft",
-        "description": "Test Payment",
+        "description": "Order Payment",
         "handler": function (response){
             alert("Payment Successful!");
             localStorage.removeItem("cart");
@@ -96,18 +151,12 @@ function payNow(){
         }
     };
 
-    var rzp = new Razorpay(options);
-    rzp.open();
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
 }
-
-// COD
-function codOrder(){
-    alert("Order placed with Cash on Delivery!");
-    localStorage.removeItem("cart");
-    window.location.href = "index.html";
-}
-
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
