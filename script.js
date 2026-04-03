@@ -2,13 +2,19 @@
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 // ADD TO CART
-function addToCart(name, price) {
-    cart.push({
+function addToCart(name, price){
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    let product = {
         name: name,
-        price: Number(price)
-    });
+        price: price
+    };
+
+    cart.push(product);
 
     localStorage.setItem("cart", JSON.stringify(cart));
+
     alert(name + " added to cart!");
 }
 
