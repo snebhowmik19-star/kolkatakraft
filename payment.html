@@ -51,7 +51,6 @@
         }
     </style>
 </head>
-
 <body>
 
 <!-- NAVBAR -->
@@ -69,7 +68,6 @@
 
     <h3 class="text-center">Payment</h3>
     <h5 class="text-center">Total: ₹<span id="totalAmount">0</span></h5>
-
     <hr>
 
     <h6>Select Payment Method</h6>
@@ -78,7 +76,7 @@
     <input type="radio" name="payment" id="upiRadio" onclick="showUPI()"> UPI <br>
     <input type="radio" name="payment" id="codRadio" onclick="showCOD()"> Cash on Delivery <br><br>
 
-    <!-- Card -->
+    <!-- Card Form -->
     <div id="cardForm">
         <input type="text" placeholder="Name on Card" class="form-control mb-2">
         <input type="text" placeholder="Card Number" class="form-control mb-2">
@@ -86,20 +84,18 @@
         <input type="password" placeholder="CVV" class="form-control mb-2">
     </div>
 
-    <!-- UPI -->
+    <!-- UPI Form -->
     <div id="upiForm" style="display:none;">
         <input type="text" placeholder="Enter UPI ID" class="form-control mb-2">
     </div>
 
-    <!-- COD -->
+    <!-- COD Message -->
     <div id="codMsg" style="display:none;">
         <p>Pay when your order is delivered.</p>
     </div>
 
-    <!-- BUTTON -->
-    <button onclick="payNow()" class="btn btn-custom mt-2">
-        Pay Now
-    </button>
+    <!-- Pay Button -->
+    <button onclick="payNow()" class="btn btn-custom mt-2">Pay Now</button>
 
 </div>
 
@@ -116,19 +112,17 @@
 let total = localStorage.getItem("total") || 500;
 document.getElementById("totalAmount").innerText = total;
 
-/* Payment toggle functions */
+/* Toggle payment forms */
 function showCard(){
     document.getElementById("cardForm").style.display = "block";
     document.getElementById("upiForm").style.display = "none";
     document.getElementById("codMsg").style.display = "none";
 }
-
 function showUPI(){
     document.getElementById("cardForm").style.display = "none";
     document.getElementById("upiForm").style.display = "block";
     document.getElementById("codMsg").style.display = "none";
 }
-
 function showCOD(){
     document.getElementById("cardForm").style.display = "none";
     document.getElementById("upiForm").style.display = "none";
@@ -142,8 +136,8 @@ function payNow(){
     if(selectedPayment === "cardRadio" || selectedPayment === "upiRadio"){
         // Razorpay payment
         var options = {
-            "key": "rzp_test_yourActualKeyHere", // Replace with your Razorpay test key
-            "amount": total * 100, // in paise
+            "key": "rzp_test_yourActualKeyHere", // ← Replace with your actual Razorpay test key
+            "amount": total * 100,
             "currency": "INR",
             "name": "KolkataKraft",
             "description": "Order Payment",
@@ -156,13 +150,12 @@ function payNow(){
         var rzp1 = new Razorpay(options);
         rzp1.open();
 
-        // Optional: handle failure
         rzp1.on('payment.failed', function (response){
             alert("Payment Failed: " + response.error.description);
         });
 
     } else if(selectedPayment === "codRadio"){
-        // Cash on Delivery
+        // COD payment
         alert("Order placed successfully! Pay when your order is delivered.");
         localStorage.removeItem("cart");
         window.location.href = "index.html";
