@@ -18,7 +18,7 @@ function displayCart() {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     let cartList = document.getElementById("cartList");
 
-    if (!cartList) return; // avoid error on other pages
+    if (!cartList) return; // prevents error on other pages
 
     cartList.innerHTML = "";
     let total = 0;
@@ -29,7 +29,7 @@ function displayCart() {
 
         li.innerHTML = `
             ${item.name} - ₹${item.price}
-            <button onclick="removeItem(${index})" 
+            <button onclick="removeItem(${index})"
                 style="background:red; color:white; border:none; padding:5px 10px; border-radius:5px;">
                 Remove
             </button>
@@ -60,7 +60,7 @@ function removeItem(index) {
 }
 
 
-// LOAD CART AUTOMATICALLY
-window.onload = function () {
+// LOAD CART AUTOMATICALLY (FIXED)
+document.addEventListener("DOMContentLoaded", function () {
     displayCart();
-};
+});
