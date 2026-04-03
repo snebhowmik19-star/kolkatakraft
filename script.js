@@ -41,7 +41,7 @@ function displayCart() {
                 </div>
 
                 <button onclick="removeItem(${index})"
-                    style="background:red; color:white; border:none; padding:6px 10px; border-radius:5px;">
+                    style="background:#e63946; color:white; border:none; padding:6px 10px; border-radius:5px;">
                     Remove
                 </button>
 
@@ -57,7 +57,7 @@ function displayCart() {
 function removeItem(index) {
     cart.splice(index, 1);
     localStorage.setItem("cart", JSON.stringify(cart));
-    displayCart();
+    displayCart(); // refresh UI
 }
 
 // GO TO PAYMENT
