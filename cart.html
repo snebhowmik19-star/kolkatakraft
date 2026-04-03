@@ -43,16 +43,11 @@
         }
 
         .btn-remove {
-            background-color: #e63946;
+            background-color: red;
             color: white;
             border: none;
-            padding: 3px 8px;
+            padding: 5px 10px;
             border-radius: 5px;
-            margin-left: 10px;
-        }
-
-        .btn-remove:hover {
-            background-color: #d62828;
         }
 
         .footer {
@@ -100,19 +95,21 @@
 <!-- SCRIPT -->
 <script>
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let cartList = document.getElementById("cartList");
 
-function displayCart() {
-    cartList.innerHTML = ""; // clear previous list
+function displayCart(){
+    let cartList = document.getElementById("cartList");
+    cartList.innerHTML = "";
     let total = 0;
 
     cart.forEach((item, index) => {
         let li = document.createElement("li");
         li.className = "list-group-item d-flex justify-content-between align-items-center";
+
         li.innerHTML = `
             ${item.name} - ₹${item.price}
             <button class="btn-remove" onclick="removeItem(${index})">Remove</button>
         `;
+
         cartList.appendChild(li);
         total += item.price;
     });
@@ -121,13 +118,12 @@ function displayCart() {
     localStorage.setItem("total", total);
 }
 
-function removeItem(index) {
-    cart.splice(index, 1); // remove item from array
+function removeItem(index){
+    cart.splice(index, 1);
     localStorage.setItem("cart", JSON.stringify(cart));
-    displayCart(); // refresh cart
+    displayCart();
 }
 
-// initial display
 displayCart();
 </script>
 
