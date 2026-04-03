@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>KolkataKraft</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(to right, #fef9f4, #f7e8e8);
+            font-family: Arial;
+        }
+
+        .navbar-custom {
+            background-color: #a8dadc;
+        }
+
+        .navbar-custom a {
+            color: #333;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 40px;
+            color: #444;
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-custom {
+            background-color: #f4a261;
+            color: white;
+        }
+
+        .btn-custom:hover {
+            background-color: #e76f51;
+        }
+
+        .footer {
+            background-color: #a8dadc;
+            color: #333;
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar-custom text-center p-3">
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="cart.html">Cart</a>
+    <a href="enquiry.html">Enquiry</a>
+    <a href="analytics.html">Analytics</a>
+    <a href="login.html">Login</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+    <h1>Welcome to KolkataKraft</h1>
+    <p>Discover Beautiful Handicrafts from West Bengal </p>
+</div>
+
+<!-- PRODUCTS -->
+<div class="container">
+    <div class="row justify-content-center">
+
+        <!-- Saree -->
+        <div class="col-md-4">
+            <div class="card m-3">
+                <img src="images/madhubani.jpg" class="card-img-top" style="height:220px; object-fit:cover;">
+                <div class="card-body text-center">
+                    <h5>Madhubani</h5>
+                    <p>₹1000</p>
+                    <button onclick="addToCart('Madhubani',1000)" class="btn btn-custom">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dokra -->
+        <div class="col-md-4">
+            <div class="card m-3">
+                <img src="images/bedsheet.jpg" class="card-img-top" style="height:220px;">
+                <div class="card-body text-center">
+                    <h5>Bedsheet</h5>
+                    <p>₹1500</p>
+                    <button onclick="addToCart('Bedsheet',1500)" class="btn btn-custom">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kantha -->
+        <div class="col-md-4">
+            <div class="card m-3">
+                <img src="images/bamboo storage box.jpg" class="card-img-top" style="height:220px;">
+                <div class="card-body text-center">
+                    <h5>Bamboo Storage Box</h5>
+                    <p>₹900</p>
+                    <button onclick="addToCart('Bamboo Storage Box',900)" class="btn btn-custom">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+
+         <div class="col-md-4">
+            <div class="card m-3">
+                <img src="images/sculpture.jpg" class="card-img-top" style="height:220px;">
+                <div class="card-body text-center">
+                    <h5>Sculpture</h5>
+                    <p>₹1200</p>
+                    <button onclick="addToCart('Sculpture',1200)" class="btn btn-custom">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <p>© 2026 KolkataKraft | Crafted with Love 💛</p>
+</div>
+
+<!-- SCRIPT -->
+<script src="js/script.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

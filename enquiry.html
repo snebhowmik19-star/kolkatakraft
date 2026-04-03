@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bulk Order - KolkataKraft</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(to right, #fef9f4, #f7e8e8);
+            font-family: Arial;
+        }
+
+        .navbar-custom {
+            background-color: #a8dadc;
+        }
+
+        .navbar-custom a {
+            color: #333;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .enquiry-box {
+            max-width: 500px;
+            margin: 40px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-custom {
+            background-color: #f4a261;
+            color: white;
+            width: 100%;
+        }
+
+        .btn-custom:hover {
+            background-color: #e76f51;
+        }
+
+        .footer {
+            background-color: #a8dadc;
+            color: #333;
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar-custom text-center p-3">
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="cart.html">Cart</a>
+    <a href="enquiry.html">Enquiry</a>
+    <a href="analytics.html">Analytics</a>
+    <a href="login.html">Login</a>
+</div>
+
+<!-- ENQUIRY FORM -->
+<div class="enquiry-box">
+
+    <h3 class="text-center mb-3">Bulk Order Enquiry</h3>
+
+    <form onsubmit="return submitEnquiry()">
+
+        <input type="text" id="name" placeholder="Your Name" class="form-control mb-3" required>
+
+        <input type="email" id="email" placeholder="Your Email" class="form-control mb-3" required>
+
+        <!-- Product -->
+        <select id="product" class="form-control mb-3" required>
+            <option value="">Select Product</option>
+            <option>Madhubani</option>
+            <option>Bedsheet</option>
+            <option>Bamboo Storage Box</option>
+            <option>Sculpture</option>
+        </select>
+
+        <!-- Quantity -->
+        <input type="number" id="quantity" placeholder="Enter Quantity" class="form-control mb-3" required>
+
+        <button type="submit" class="btn btn-custom">Submit Enquiry</button>
+
+    </form>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <p>© 2026 KolkataKraft | Crafted with Love 💛</p>
+</div>
+
+<!-- SCRIPT -->
+<script>
+function submitEnquiry(){
+
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let product = document.getElementById("product").value;
+    let quantity = document.getElementById("quantity").value;
+
+    let enquiry = {
+        name: name,
+        email: email,
+        product: product,
+        quantity: quantity
+    };
+
+    let enquiries = JSON.parse(localStorage.getItem("enquiries")) || [];
+    enquiries.push(enquiry);
+
+    localStorage.setItem("enquiries", JSON.stringify(enquiries));
+
+    alert("Bulk Order Enquiry Submitted!");
+
+    return false;
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

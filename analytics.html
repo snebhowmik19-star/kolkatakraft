@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analytics - KolkataKraft</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(to right, #fef9f4, #f7e8e8);
+            font-family: Arial;
+        }
+
+        .navbar-custom {
+            background-color: #a8dadc;
+        }
+
+        .navbar-custom a {
+            color: #333;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .analytics-box {
+            max-width: 500px;
+            margin: 40px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .footer {
+            background-color: #a8dadc;
+            color: #333;
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar-custom text-center p-3">
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="cart.html">Cart</a>
+    <a href="enquiry.html">Enquiry</a>
+    <a href="analytics.html">Analytics</a>
+    <a href="login.html">Login</a>
+</div>
+
+<!-- ANALYTICS -->
+<div class="analytics-box">
+
+    <h3>Sales Analytics 📊</h3>
+    <hr>
+
+    <p>Total Items in Cart: <strong id="itemCount">0</strong></p>
+    <p>Total Revenue: ₹<strong id="totalRevenue">0</strong></p>
+
+    <hr>
+
+    <h5>Products in Cart:</h5>
+    <ul id="productList" class="list-group"></ul>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <p>© 2026 KolkataKraft | Crafted with Love 💛</p>
+</div>
+
+<!-- SCRIPT -->
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+let total = 0;
+let count = cart.length;
+
+document.getElementById("itemCount").innerText = count;
+
+let list = document.getElementById("productList");
+
+cart.forEach(item => {
+    let li = document.createElement("li");
+    li.className = "list-group-item";
+    li.innerText = item.name + " - ₹" + item.price;
+    list.appendChild(li);
+    total += item.price;
+});
+
+document.getElementById("totalRevenue").innerText = total;
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
