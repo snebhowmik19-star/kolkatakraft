@@ -72,9 +72,9 @@
 
     <h6>Select Payment Method</h6>
 
-    <input type="radio" name="payment" id="cardRadio" onclick="showCard()" checked> Card Payment <br>
-    <input type="radio" name="payment" id="upiRadio" onclick="showUPI()"> UPI <br>
-    <input type="radio" name="payment" id="codRadio" onclick="showCOD()"> Cash on Delivery <br><br>
+    <input type="radio" name="payment" value="card" onclick="showCard()" checked> Card Payment <br>
+    <input type="radio" name="payment" value="upi" onclick="showUPI()"> UPI <br>
+    <input type="radio" name="payment" value="cod" onclick="showCOD()"> Cash on Delivery <br><br>
 
     <!-- Card Form -->
     <div id="cardForm">
@@ -108,8 +108,9 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
-/* Show total */
-let total = localStorage.getItem("total") || 500;
+
+/* Get total safely */
+let total = parseInt(localStorage.getItem("total")) || 0;
 document.getElementById("totalAmount").innerText = total;
 
 /* Toggle payment forms */
@@ -118,51 +119,64 @@ function showCard(){
     document.getElementById("upiForm").style.display = "none";
     document.getElementById("codMsg").style.display = "none";
 }
+
 function showUPI(){
     document.getElementById("cardForm").style.display = "none";
     document.getElementById("upiForm").style.display = "block";
     document.getElementById("codMsg").style.display = "none";
 }
+
 function showCOD(){
     document.getElementById("cardForm").style.display = "none";
     document.getElementById("upiForm").style.display = "none";
     document.getElementById("codMsg").style.display = "block";
 }
 
-/* Main payment function */
+/* Payment Function */
 function payNow(){
-    let selectedPayment = document.querySelector('input[name="payment"]:checked').id;
 
-    if(selectedPayment === "cardRadio" || selectedPayment === "upiRadio"){
-        // Razorpay payment
-        var options = {
-            "key": "rzp_test_yourActualKeyHere", // ← Replace with your actual Razorpay test key
-            "amount": total * 100,
-            "currency": "INR",
-            "name": "KolkataKraft",
-            "description": "Order Payment",
-            "handler": function (response){
-                alert("Payment Successful!");
-                localStorage.removeItem("cart");
-                window.location.href = "index.html";
-            }
-        };
-        var rzp1 = new Razorpay(options);
-        rzp1.open();
+    let selected = document.querySelector('input[name="payment"]:checked').value;
 
-        rzp1.on('payment.failed', function (response){
-            alert("Payment Failed: " + response.error.description);
-        });
-
-    } else if(selectedPayment === "codRadio"){
-        // COD payment
-        alert("Order placed successfully! Pay when your order is delivered.");
-        localStorage.removeItem("cart");
-        window.location.href = "index.html";
+    if(total === 0){
+        alert("Your cart is empty!");
+        return;
     }
+
+    // COD option
+    if(selected === "cod"){
+        alert("Order placed successfully! Pay on delivery.");
+        localStorage.removeItem("cart");
+        localStorage.removeItem("total");
+        window.location.href = "index.html";
+        return;
+    }
+
+    // Razorpay (Card / UPI)
+    var options = {
+        "key": "rzp_test_1234567890",  // test key
+        "amount": total * 100,
+        "currency": "INR",
+        "name": "KolkataKraft",
+        "description": "Order Payment",
+        "handler": function (response){
+            alert("Payment Successful!");
+            localStorage.removeItem("cart");
+            localStorage.removeItem("total");
+            window.location.href = "index.html";
+        }
+    };
+
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+
+    rzp1.on('payment.failed', function (){
+        alert("Payment Failed! Try again.");
+    });
 }
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
